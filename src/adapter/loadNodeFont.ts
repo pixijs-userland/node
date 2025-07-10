@@ -1,5 +1,5 @@
 import { registerFont } from 'canvas';
-import { getFontFamilyName, ExtensionType, path } from 'pixi.js';
+import { ExtensionType, getFontFamilyName, path } from 'pixi.js';
 
 import type { LoaderParser, LoadFontData, ResolvedAsset } from 'pixi.js';
 

@@ -1,9 +1,11 @@
 import { loadImage } from 'canvas';
-import { ExtensionType, DOMAdapter, Texture, TextureSource, getResolutionOfUrl, path, createTexture } from 'pixi.js';
+import {
+    createTexture, DOMAdapter, ExtensionType, getResolutionOfUrl, type Loader, type LoaderParser, type LoadTextureConfig,
+    path,
+    type ResolvedAsset, type Texture, type TextureSource, type TextureSourceOptions
+} from 'pixi.js';
 import { NodeCanvasElement } from './NodeCanvasElement';
 import { NodeCanvasSource } from './NodeCanvasSource';
-
-import type { LoaderParser, ResolvedAsset, TextureSourceOptions, Loader, LoadTextureConfig } from 'pixi.js';
 
 const validImages = ['.jpg', '.png', '.jpeg', '.svg'];
 

@@ -1,8 +1,8 @@
 import { loadImage } from 'canvas';
-import { ExtensionType, Texture, TextureSource, getResolutionOfUrl } from 'pixi.js';
+import {
+    ExtensionType, getResolutionOfUrl, type LoaderParser, type ResolvedAsset, Texture, type TextureSource
+} from 'pixi.js';
 import { NodeCanvasElement } from './NodeCanvasElement';
-
-import type { LoaderParser, ResolvedAsset } from 'pixi.js';
 
 const validMimes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg'];
 

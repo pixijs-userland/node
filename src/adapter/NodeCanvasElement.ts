@@ -9,7 +9,9 @@ import type {
     STACKGL_resize_drawingbuffer, // eslint-disable-line camelcase
     StackGLExtension,
 } from 'gl';
-import type { RenderingContext, ICanvasRenderingContext2D, ContextIds, ContextSettings, ICanvas, ICanvasRenderingContext2DSettings } from 'pixi.js';
+import type {
+    ContextIds, ContextSettings, ICanvas, ICanvasRenderingContext2D, ICanvasRenderingContext2DSettings, RenderingContext
+} from 'pixi.js';
 
 const { Canvas, Image, createImageData } = canvasModule;
 
