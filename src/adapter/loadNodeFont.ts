@@ -1,10 +1,8 @@
-import canvasModule from 'canvas';
-import { getFontFamilyName } from '@pixi/assets';
-import { extensions, ExtensionType, utils } from '@pixi/core';
+import { registerFont } from 'canvas';
+import { getFontFamilyName, ExtensionType, path } from 'pixi.js';
 
-import type { LoaderParser, LoadFontData, ResolvedAsset } from '@pixi/assets';
+import type { LoaderParser, LoadFontData, ResolvedAsset } from 'pixi.js';
 
-const { registerFont } = canvasModule;
 const validWeights = [
     'normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900',
 ];
@@ -16,7 +14,7 @@ export const loadNodeFont = {
 
     test(url: string): boolean
     {
-        return validFonts.includes(utils.path.extname(url).toLowerCase());
+        return validFonts.includes(path.extname(url).toLowerCase());
     },
 
     async load(url: string, options: ResolvedAsset<LoadFontData>): Promise<void>
@@ -37,5 +35,3 @@ export const loadNodeFont = {
         }
     },
 } as LoaderParser;
-
-extensions.add(loadNodeFont);

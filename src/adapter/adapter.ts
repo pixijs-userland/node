@@ -2,11 +2,11 @@ import canvasModule from 'canvas';
 import { fetch, Request, Response } from 'cross-fetch';
 import fs from 'fs';
 import { WebGLRenderingContext } from 'gl';
-import { settings, utils } from '@pixi/core';
+import { DOMAdapter, path } from 'pixi.js';
 import { NodeCanvasElement } from './NodeCanvasElement';
 import { DOMParser } from '@xmldom/xmldom';
 
-import type { IAdapter } from '@pixi/core';
+import type { Adapter } from 'pixi.js';
 
 export const NodeAdapter = {
     /**
@@ -29,7 +29,7 @@ export const NodeAdapter = {
         const request = new Request(url, options);
 
         // Check if urls starts with http(s) as only these are supported by node-fetch
-        if (utils.path.isUrl(request.url))
+        if (path.isUrl(request.url))
         {
             return fetch(url, request);
         }
@@ -42,7 +42,7 @@ export const NodeAdapter = {
             const rawPath = typeof url === 'string' ? url : decodeURI(request.url);
 
             // Normalize the path
-            const filePath = utils.path.normalize(rawPath);
+            const filePath = path.normalize(rawPath);
 
             if (!fs.existsSync(filePath))
             {
@@ -68,8 +68,6 @@ export const NodeAdapter = {
 
         return parser.parseFromString(xml, 'text/xml');
     },
-} as unknown as IAdapter;
+} as unknown as Adapter;
 
-settings.ADAPTER = NodeAdapter;
-
-export { settings };
+DOMAdapter.set(NodeAdapter);

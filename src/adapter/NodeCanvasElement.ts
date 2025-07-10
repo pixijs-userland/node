@@ -1,6 +1,6 @@
 import canvasModule from 'canvas';
 import createGLContext from 'gl';
-import { ICanvasRenderingContext2D, utils } from '@pixi/core';
+import { EventEmitter } from 'pixi.js';
 
 import type {
     CanvasRenderingContext2D, JpegConfig, NodeCanvasRenderingContext2DSettings, PdfConfig, PngConfig,
@@ -9,7 +9,7 @@ import type {
     STACKGL_resize_drawingbuffer, // eslint-disable-line camelcase
     StackGLExtension,
 } from 'gl';
-import type { ContextIds, ContextSettings, ICanvas, ICanvasRenderingContext2DSettings } from '@pixi/core';
+import type { RenderingContext, ICanvasRenderingContext2D, ContextIds, ContextSettings, ICanvas, ICanvasRenderingContext2DSettings } from 'pixi.js';
 
 const { Canvas, Image, createImageData } = canvasModule;
 
@@ -28,7 +28,7 @@ export class NodeCanvasElement implements ICanvas
     public style: Record<string, any>;
 
     private _canvas: canvasModule.Canvas;
-    private _event: utils.EventEmitter;
+    private _event: EventEmitter;
     private _contextType?: ContextIds;
     private _ctx?: CanvasRenderingContext2D;
     private _gl?: WebGLRenderingContext & StackGLExtension;
@@ -39,7 +39,7 @@ export class NodeCanvasElement implements ICanvas
     constructor(width = 1, height = 1, type?: 'image' | 'pdf' | 'svg')
     {
         this._canvas = new Canvas(width, height, type);
-        this._event = new utils.EventEmitter();
+        this._event = new EventEmitter();
         this.style = {};
     }
 
@@ -77,26 +77,29 @@ export class NodeCanvasElement implements ICanvas
 
     getContext(
         contextId: '2d',
-        options?: ICanvasRenderingContext2DSettings | NodeCanvasRenderingContext2DSettings,
+        options?: ICanvasRenderingContext2DSettings,
     ): ICanvasRenderingContext2D | null;
     getContext(
         contextId: 'bitmaprenderer',
-        options?: ImageBitmapRenderingContextSettings | NodeCanvasRenderingContext2DSettings,
-    ): null;
+        options?: ImageBitmapRenderingContextSettings,
+    ): null; // ImageBitmapRenderingContext | null;
     getContext(
         contextId: 'webgl' | 'experimental-webgl',
-        options?: WebGLContextAttributes | NodeCanvasRenderingContext2DSettings,
+        options?: WebGLContextAttributes,
     ): WebGLRenderingContext | null;
     getContext(
         contextId: 'webgl2' | 'experimental-webgl2',
-        options?: WebGLContextAttributes | NodeCanvasRenderingContext2DSettings,
-    ): null;
+        options?: WebGLContextAttributes,
+    ): null; // WebGL2RenderingContext | null;
     getContext(
-        type: ContextIds,
-        options?: ContextSettings | NodeCanvasRenderingContext2DSettings,
-    ): ICanvasRenderingContext2D | WebGLRenderingContext | null
+        contextId: 'webgpu',
+    ): null; // GPUCanvasContext | null;
+    getContext(
+        contextId: ContextIds,
+        options?: ContextSettings,
+    ): RenderingContext | null
     {
-        switch (type)
+        switch (contextId)
         {
             case '2d':
             {

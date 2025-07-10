@@ -1,6 +1,6 @@
 {
   "name": "@pixi/node",
-  "version": "7.3.0",
+  "version": "8.0.0",
   "description": "Bundle for PixiJS with support for NodeJS",
   "homepage": "http://pixijs.com/",
   "bugs": "https://github.com/pixijs/node/issues",
@@ -45,40 +45,16 @@
     ]
   },
   "devDependencies": {
-    "@pixi/extension-scripts": "^2.0.0"
+    "@types/gl": "^6.0.2",
+    "@types/node": "^24.0.12",
+    "@webgpu/types": "^0.1.64"
   },
   "dependencies": {
-    "@pixi/app": "^7.3.0",
-    "@pixi/assets": "^7.3.0",
-    "@pixi/core": "^7.3.0",
-    "@pixi/display": "^7.3.0",
-    "@pixi/extensions": "^7.3.0",
-    "@pixi/extract": "^7.3.0",
-    "@pixi/filter-alpha": "^7.3.0",
-    "@pixi/filter-blur": "^7.3.0",
-    "@pixi/filter-color-matrix": "^7.3.0",
-    "@pixi/filter-displacement": "^7.3.0",
-    "@pixi/filter-fxaa": "^7.3.0",
-    "@pixi/filter-noise": "^7.3.0",
-    "@pixi/graphics": "^7.3.0",
-    "@pixi/mesh": "^7.3.0",
-    "@pixi/mesh-extras": "^7.3.0",
-    "@pixi/mixin-cache-as-bitmap": "^7.3.0",
-    "@pixi/mixin-get-child-by-name": "^7.3.0",
-    "@pixi/mixin-get-global-position": "^7.3.0",
-    "@pixi/particle-container": "^7.3.0",
-    "@pixi/prepare": "^7.3.0",
-    "@pixi/sprite": "^7.3.0",
-    "@pixi/sprite-animated": "^7.3.0",
-    "@pixi/sprite-tiling": "^7.3.0",
-    "@pixi/spritesheet": "^7.3.0",
-    "@pixi/text": "^7.3.0",
-    "@pixi/text-bitmap": "^7.3.0",
-    "@types/gl": "^6.0.2",
+    "pixi.js": "^8.11.0",
     "@xmldom/xmldom": "^0.8.6",
-    "canvas": "^2.9.1",
-    "cross-fetch": "^3.1.5",
-    "gl": "^6.0.1"
+    "canvas": "^3.1.2",
+    "cross-fetch": "^4.1.0",
+    "gl": "^8.1.6"
   },
   "publishConfig": {
     "access": "public"
