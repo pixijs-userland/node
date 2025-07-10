@@ -12,8 +12,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: apt update
-        run: sudo apt-get update
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          # https://github.com/stackgl/headless-gl?tab=readme-ov-file#ubuntudebian
+          sudo apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config
+          # https://github.com/Automattic/node-canvas#compiling
+          sudo apt-get install -y libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,12 +38,6 @@ jobs:
           path: ${{ github.workspace }}/node_modules
           key: node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('package-lock.json') }}
 
-      - name: Install build dependencies
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        # https://github.com/stackgl/headless-gl?tab=readme-ov-file#ubuntudebian
-        # https://github.com/Automattic/node-canvas#compiling
-        run: sudo apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-
       - name: Run npm ci
         run: npm ci --build-from-source
         if: steps.cache-restore.outputs.cache-hit != 'true'
@@ -48,9 +48,6 @@ jobs:
         with:
           path: ${{ github.workspace }}/node_modules
           key: node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install xvfb
-        run: sudo apt-get install -y xvfb
 
       - name: Build
         run: npm run build
