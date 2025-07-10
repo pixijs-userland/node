@@ -89,7 +89,7 @@ app.ticker.add(() => {
 
 // extract and save the stage
 app.renderer.render(app.stage);
-const base64Image = app.renderer.view.toDataURL('image/png');
+const base64Image = app.renderer.canvas.toDataURL('image/png');
 const base64Data = base64Image.replace(/^data:image\/png;base64,/, '');
 const output = `./test.png`;
 
