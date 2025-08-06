@@ -1,9 +1,10 @@
-import canvasModule from 'canvas';
+import { CanvasRenderingContext2D } from 'canvas';
 import { fetch, Request, Response } from 'cross-fetch';
 import fs from 'fs';
 import { WebGLRenderingContext } from 'gl';
 import { DOMAdapter, path } from 'pixi.js';
 import { NodeCanvasElement } from './NodeCanvasElement';
+import { NodeImage } from './NodeImage';
 import { DOMParser } from '@xmldom/xmldom';
 
 import type { Adapter } from 'pixi.js';
@@ -16,7 +17,8 @@ export const NodeAdapter = {
      * @param height - height of the canvas
      */
     createCanvas: (width?: number, height?: number) => new NodeCanvasElement(width, height),
-    getCanvasRenderingContext2D: () => canvasModule.CanvasRenderingContext2D,
+    getCanvasRenderingContext2D: () => CanvasRenderingContext2D,
+    createImage: () => new NodeImage(),
     /** Returns a WebGL rendering context using the gl package. */
     getWebGLRenderingContext: () => WebGLRenderingContext,
     /** Returns the fake user agent string of `node` */

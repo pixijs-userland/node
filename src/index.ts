@@ -1,6 +1,6 @@
 import {
     AccessibilitySystem, browserExt, detectMp4, detectOgv, detectWebm,
-    DOMPipe, EventSystem, extensions, loadTextures, loadWebFont, ResizePlugin, VideoSource
+    DOMPipe, EventSystem, extensions, loadTextures, loadVideoTextures, loadWebFont, ResizePlugin, VideoSource
 } from 'pixi.js';
 import { loadNodeBase64, loadNodeFont, loadNodeTexture, NodeCanvasSource } from './adapter';
 
@@ -10,6 +10,7 @@ extensions.remove(
     detectOgv,
     detectWebm,
     loadTextures,
+    loadVideoTextures,
     loadWebFont,
     VideoSource
 );

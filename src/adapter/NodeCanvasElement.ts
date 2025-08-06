@@ -1,6 +1,7 @@
 import canvasModule from 'canvas';
 import createGLContext from 'gl';
 import { EventEmitter } from 'pixi.js';
+import { NodeImage } from './NodeImage';
 
 import type {
     CanvasRenderingContext2D, JpegConfig, NodeCanvasRenderingContext2DSettings, PdfConfig, PngConfig,
@@ -13,7 +14,7 @@ import type {
     ContextIds, ContextSettings, ICanvas, ICanvasRenderingContext2D, ICanvasRenderingContext2DSettings, RenderingContext
 } from 'pixi.js';
 
-const { Canvas, Image, createImageData } = canvasModule;
+const { Canvas, createImageData } = canvasModule;
 
 /** Obtain the parameters of a function type in a tuple, except the first one */
 type ParametersExceptFirst<T extends (...args: any) => any> = T extends (arg0: any, ...args: infer P) => any ? P : never;
@@ -322,6 +323,10 @@ export class NodeCanvasElement implements ICanvas
                 image._updateContext();
                 image = image._canvas;
             }
+            else if (image instanceof NodeImage)
+            {
+                image = image._image;
+            }
 
             return _drawImage.call(this, image, ...args as ParametersExceptFirst<typeof _drawImage>);
         };
@@ -382,12 +387,12 @@ export class NodeCanvasElement implements ICanvas
 
                 return source;
             }
-            if (source instanceof Image)
+            if (source instanceof NodeImage)
             {
                 const { width, height } = source;
                 const canvas = new Canvas(width, height);
 
-                canvas.getContext('2d').drawImage(source, 0, 0);
+                canvas.getContext('2d').drawImage(source._image, 0, 0);
 
                 return source;
             }
