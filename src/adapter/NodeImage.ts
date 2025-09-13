@@ -86,4 +86,9 @@ export class NodeImage extends EventTarget implements ImageLike
     {
         return this._image.src as string;
     }
+
+    remove(): void
+    {
+        // noop
+    }
 }

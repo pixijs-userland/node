@@ -45,20 +45,20 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
+    "@babel/core": "^7.28.4",
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "@pixi/extension-scripts": "^4.0.0",
-    "@types/gl": "^6.0.2",
-    "@types/node": "^24.0.12",
+    "@types/gl": "^6.0.5",
+    "@types/node": "^24.3.3",
     "@webgpu/types": "^0.1.64",
-    "babel-jest": "^30.0.4"
+    "babel-jest": "^30.1.2"
   },
   "peerDependencies": {
-    "@xmldom/xmldom": "^0.8.6",
-    "canvas": "^3.1.2",
+    "@xmldom/xmldom": "^0.8.11",
+    "canvas": "^3.2.0",
     "cross-fetch": "^4.1.0",
     "gl": "^8.1.6",
-    "pixi.js": "^8.12.0"
+    "pixi.js": "^8.13.2"
   },
   "publishConfig": {
     "access": "public"

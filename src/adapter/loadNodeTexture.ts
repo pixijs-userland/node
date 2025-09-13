@@ -11,8 +11,13 @@ const validImages = ['.jpg', '.png', '.jpeg', '.svg'];
 
 /** loads our textures into a node canvas */
 export const loadNodeTexture = {
-    extension: ExtensionType.LoadParser,
+    extension: {
+        type: ExtensionType.LoadParser,
+        name: 'loadNodeTexture',
+    },
+
     name: 'loadNodeTexture',
+    id: 'node-texture',
 
     test(url: string): boolean
     {
