@@ -58,7 +58,7 @@
     "canvas": "^3.2.0",
     "cross-fetch": "^4.1.0",
     "gl": "^8.1.6",
-    "pixi.js": "^8.13.2"
+    "pixi.js": "^8.17.0"
   },
   "publishConfig": {
     "access": "public"
