@@ -40,7 +40,8 @@ export class NodeImage extends EventTarget implements ImageLike
 
     set src(value: string)
     {
-        this._image.src = value;
+        // https://github.com/Automattic/node-canvas/issues/2126
+        this._image.src = decodeURIComponent(value);
     }
 
     get width(): number
