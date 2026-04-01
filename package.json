@@ -27,6 +27,7 @@
     "node": ">=16"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "xs build",
     "docs": "xs docs",
     "release": "xs release",
