@@ -22,18 +22,18 @@ jobs:
           sudo apt-get install -y libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Use Node.js
         id: setup-node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
 
       - name: Restore cache
         id: cache-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ${{ github.workspace }}/node_modules
           key: node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('package-lock.json') }}
@@ -43,7 +43,7 @@ jobs:
         if: steps.cache-restore.outputs.cache-hit != 'true'
 
       - name: Cache save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         if: steps.cache-restore.outputs.cache-hit != 'true'
         with:
           path: ${{ github.workspace }}/node_modules
