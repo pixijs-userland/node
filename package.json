@@ -59,7 +59,7 @@
     "canvas": "^3.2.0",
     "cross-fetch": "^4.1.0",
     "gl": "^8.1.6",
-    "pixi.js": "^8.17.1"
+    "pixi.js": "^8.18.1"
   },
   "publishConfig": {
     "access": "public"

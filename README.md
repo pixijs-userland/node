@@ -64,6 +64,7 @@ await Assets.init();
 // The application will create a renderer using WebGL. It will also setup the ticker
 // and the root stage Container.
 const app = new Application();
+await app.init();
 
 // load a sprite
 const bunnyTexture = await Assets.load(path.join(process.cwd(), 'assets/bunny.png'));
