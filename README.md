@@ -64,6 +64,7 @@ await Assets.init();
 // The application will create a renderer using WebGL. It will also setup the ticker
 // and the root stage Container.
 const app = new Application();
+await app.init();
 
 // load a sprite
 const bunnyTexture = await Assets.load(path.join(process.cwd(), 'assets/bunny.png'));
@@ -89,7 +90,7 @@ app.ticker.add(() => {
 
 // extract and save the stage
 app.renderer.render(app.stage);
-const base64Image = app.renderer.view.toDataURL('image/png');
+const base64Image = app.renderer.canvas.toDataURL('image/png');
 const base64Data = base64Image.replace(/^data:image\/png;base64,/, '');
 const output = `./test.png`;
 

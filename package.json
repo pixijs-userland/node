@@ -1,12 +1,12 @@
 {
   "name": "@pixi/node",
-  "version": "7.3.0",
+  "version": "8.0.0",
   "description": "Bundle for PixiJS with support for NodeJS",
-  "homepage": "http://pixijs.com/",
-  "bugs": "https://github.com/pixijs/node/issues",
+  "homepage": "https://pixijs.com/",
+  "bugs": "https://github.com/pixijs-userland/node/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pixijs/node.git"
+    "url": "https://github.com/pixijs-userland/node.git"
   },
   "license": "MIT",
   "author": "PixiJS Team",
@@ -24,9 +24,10 @@
     "lib"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=22"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "xs build",
     "docs": "xs docs",
     "release": "xs release",
@@ -45,40 +46,20 @@
     ]
   },
   "devDependencies": {
-    "@pixi/extension-scripts": "^2.0.0"
+    "@babel/core": "^7.28.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.27.1",
+    "@pixi/extension-scripts": "^4.0.0",
+    "@types/gl": "^6.0.5",
+    "@types/node": "^24.3.3",
+    "@webgpu/types": "^0.1.64",
+    "babel-jest": "^30.1.2"
   },
-  "dependencies": {
-    "@pixi/app": "^7.3.0",
-    "@pixi/assets": "^7.3.0",
-    "@pixi/core": "^7.3.0",
-    "@pixi/display": "^7.3.0",
-    "@pixi/extensions": "^7.3.0",
-    "@pixi/extract": "^7.3.0",
-    "@pixi/filter-alpha": "^7.3.0",
-    "@pixi/filter-blur": "^7.3.0",
-    "@pixi/filter-color-matrix": "^7.3.0",
-    "@pixi/filter-displacement": "^7.3.0",
-    "@pixi/filter-fxaa": "^7.3.0",
-    "@pixi/filter-noise": "^7.3.0",
-    "@pixi/graphics": "^7.3.0",
-    "@pixi/mesh": "^7.3.0",
-    "@pixi/mesh-extras": "^7.3.0",
-    "@pixi/mixin-cache-as-bitmap": "^7.3.0",
-    "@pixi/mixin-get-child-by-name": "^7.3.0",
-    "@pixi/mixin-get-global-position": "^7.3.0",
-    "@pixi/particle-container": "^7.3.0",
-    "@pixi/prepare": "^7.3.0",
-    "@pixi/sprite": "^7.3.0",
-    "@pixi/sprite-animated": "^7.3.0",
-    "@pixi/sprite-tiling": "^7.3.0",
-    "@pixi/spritesheet": "^7.3.0",
-    "@pixi/text": "^7.3.0",
-    "@pixi/text-bitmap": "^7.3.0",
-    "@types/gl": "^6.0.2",
-    "@xmldom/xmldom": "^0.8.6",
-    "canvas": "^2.9.1",
-    "cross-fetch": "^3.1.5",
-    "gl": "^6.0.1"
+  "peerDependencies": {
+    "@xmldom/xmldom": "^0.8.11",
+    "canvas": "^3.2.0",
+    "cross-fetch": "^4.1.0",
+    "gl": "^8.1.6",
+    "pixi.js": "^8.18.1"
   },
   "publishConfig": {
     "access": "public"

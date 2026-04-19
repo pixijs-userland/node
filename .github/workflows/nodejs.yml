@@ -10,26 +10,53 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Install Canvas Dependencies
-      run: sudo apt-get -o Acquire::Retries=3 install build-essential libcairo2-dev libgif-dev libjpeg-dev libpango1.0-dev librsvg2-dev xvfb
-    - name: Use Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        registry-url: 'https://registry.npmjs.org'
-    - name: Install npm
-      run: npm install -g npm@8
-    - name: Install Dependencies
-      run: npm ci
-    - name: Build
-      run: npm run build
-    - name: Validate Build
-      run: xvfb-run --auto-servernum npm run validate
-    - name: Run Unit Tests for @pixi/node
-      run: xvfb-run --auto-servernum npm run coverage
-      env:
-        NODE_ENV: production
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          # https://github.com/stackgl/headless-gl?tab=readme-ov-file#ubuntudebian
+          sudo apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config
+          # https://github.com/Automattic/node-canvas#compiling
+          sudo apt-get install -y libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Use Node.js
+        id: setup-node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Restore cache
+        id: cache-restore
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Run npm ci
+        run: npm ci --build-from-source
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+
+      - name: Cache save
+        uses: actions/cache/save@v5
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate Build
+        # Why use --auto-servernum: https://stackoverflow.com/a/36002011/10245493
+        run: xvfb-run --auto-servernum npm run validate
+
+      - name: Run Unit Tests for @pixi/node
+        run: xvfb-run --auto-servernum npm run coverage
+        env:
+          NODE_ENV: production

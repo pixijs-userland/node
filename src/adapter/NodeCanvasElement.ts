@@ -1,6 +1,7 @@
 import canvasModule from 'canvas';
 import createGLContext from 'gl';
-import { ICanvasRenderingContext2D, utils } from '@pixi/core';
+import { EventEmitter } from 'pixi.js';
+import { NodeImage } from './NodeImage';
 
 import type {
     CanvasRenderingContext2D, JpegConfig, NodeCanvasRenderingContext2DSettings, PdfConfig, PngConfig,
@@ -9,9 +10,11 @@ import type {
     STACKGL_resize_drawingbuffer, // eslint-disable-line camelcase
     StackGLExtension,
 } from 'gl';
-import type { ContextIds, ContextSettings, ICanvas, ICanvasRenderingContext2DSettings } from '@pixi/core';
+import type {
+    ContextIds, ContextSettings, ICanvas, ICanvasRenderingContext2D, ICanvasRenderingContext2DSettings, RenderingContext
+} from 'pixi.js';
 
-const { Canvas, Image, createImageData } = canvasModule;
+const { Canvas, createImageData } = canvasModule;
 
 /** Obtain the parameters of a function type in a tuple, except the first one */
 type ParametersExceptFirst<T extends (...args: any) => any> = T extends (arg0: any, ...args: infer P) => any ? P : never;
@@ -28,7 +31,7 @@ export class NodeCanvasElement implements ICanvas
     public style: Record<string, any>;
 
     private _canvas: canvasModule.Canvas;
-    private _event: utils.EventEmitter;
+    private _event: EventEmitter;
     private _contextType?: ContextIds;
     private _ctx?: CanvasRenderingContext2D;
     private _gl?: WebGLRenderingContext & StackGLExtension;
@@ -39,7 +42,7 @@ export class NodeCanvasElement implements ICanvas
     constructor(width = 1, height = 1, type?: 'image' | 'pdf' | 'svg')
     {
         this._canvas = new Canvas(width, height, type);
-        this._event = new utils.EventEmitter();
+        this._event = new EventEmitter();
         this.style = {};
     }
 
@@ -77,26 +80,29 @@ export class NodeCanvasElement implements ICanvas
 
     getContext(
         contextId: '2d',
-        options?: ICanvasRenderingContext2DSettings | NodeCanvasRenderingContext2DSettings,
+        options?: ICanvasRenderingContext2DSettings,
     ): ICanvasRenderingContext2D | null;
     getContext(
         contextId: 'bitmaprenderer',
-        options?: ImageBitmapRenderingContextSettings | NodeCanvasRenderingContext2DSettings,
-    ): null;
+        options?: ImageBitmapRenderingContextSettings,
+    ): null; // ImageBitmapRenderingContext | null;
     getContext(
         contextId: 'webgl' | 'experimental-webgl',
-        options?: WebGLContextAttributes | NodeCanvasRenderingContext2DSettings,
+        options?: WebGLContextAttributes,
     ): WebGLRenderingContext | null;
     getContext(
         contextId: 'webgl2' | 'experimental-webgl2',
-        options?: WebGLContextAttributes | NodeCanvasRenderingContext2DSettings,
-    ): null;
+        options?: WebGLContextAttributes,
+    ): null; // WebGL2RenderingContext | null;
     getContext(
-        type: ContextIds,
-        options?: ContextSettings | NodeCanvasRenderingContext2DSettings,
-    ): ICanvasRenderingContext2D | WebGLRenderingContext | null
+        contextId: 'webgpu',
+    ): null; // GPUCanvasContext | null;
+    getContext(
+        contextId: ContextIds,
+        options?: ContextSettings,
+    ): RenderingContext | null
     {
-        switch (type)
+        switch (contextId)
         {
             case '2d':
             {
@@ -317,6 +323,10 @@ export class NodeCanvasElement implements ICanvas
                 image._updateContext();
                 image = image._canvas;
             }
+            else if (image instanceof NodeImage)
+            {
+                image = image._image;
+            }
 
             return _drawImage.call(this, image, ...args as ParametersExceptFirst<typeof _drawImage>);
         };
@@ -377,12 +387,12 @@ export class NodeCanvasElement implements ICanvas
 
                 return source;
             }
-            if (source instanceof Image)
+            if (source instanceof NodeImage)
             {
                 const { width, height } = source;
                 const canvas = new Canvas(width, height);
 
-                canvas.getContext('2d').drawImage(source, 0, 0);
+                canvas.getContext('2d').drawImage(source._image, 0, 0);
 
                 return source;
             }
